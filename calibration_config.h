@@ -181,21 +181,17 @@ inline int calibrateLDR(int rawValue) {
 
 // ==================== CONFIGURACIÓN DE VALIDACIÓN ====================
 
-// Validar que los valores estén en rangos lógicos
-#if REGION_ALTITUDE < 0 || REGION_ALTITUDE > 10000
-#error "Altitud fuera del rango válido (0-10000 metros)"
-#endif
-
-#if TEMP_MIN_ANNUAL > TEMP_MAX_ANNUAL
-#error "Temperatura mínima no puede ser mayor que la máxima"
-#endif
-
-#if HUMIDITY_MIN_TYPICAL > HUMIDITY_MAX_TYPICAL
-#error "Humedad mínima no puede ser mayor que la máxima"
-#endif
-
+// Validar que los valores estén en rangos lógicos (solo enteros)
 #if RAINY_SEASON_START > 12 || RAINY_SEASON_END > 12
 #error "Meses de temporada lluviosa fuera del rango válido (1-12)"
+#endif
+
+#if RAINY_SEASON_START < 1 || RAINY_SEASON_END < 1
+#error "Meses deben ser entre 1 y 12"
+#endif
+
+#if SCREEN_COUNT < 1 || SCREEN_COUNT > 10
+#error "Número de pantallas debe ser entre 1 y 10"
 #endif
 
 #endif // CALIBRATION_CONFIG_H
