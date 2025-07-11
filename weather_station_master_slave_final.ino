@@ -263,7 +263,7 @@ void displayScreen(byte s) {
   
   switch(s) {
     case 0: // Temperatura y sensación usando abreviaturas de configuración
-      lcd.write(0);
+      lcd.write((uint8_t)0);
       lcd.print(ABBR_TEMPERATURE ":");
       lcd.print(weather.temp, TEMP_PRECISION);
       lcd.print("C");
@@ -274,7 +274,7 @@ void displayScreen(byte s) {
       break;
       
     case 1: // Min/Max usando abreviaturas
-      lcd.write(0);
+      lcd.write((uint8_t)0);
       lcd.print(ABBR_MIN_TEMP ":");
       lcd.print(weather.tempMin, TEMP_PRECISION);
       lcd.print("C");
@@ -285,7 +285,7 @@ void displayScreen(byte s) {
       break;
       
     case 2: // Humedad/Rocío usando abreviaturas
-      lcd.write(1);
+      lcd.write((uint8_t)1);
       lcd.print(ABBR_HUMIDITY ":");
       lcd.print(weather.hum, HUMIDITY_PRECISION);
       lcd.print("%");
@@ -296,7 +296,7 @@ void displayScreen(byte s) {
       break;
       
     case 3: // Clima actual usando textos de configuración
-      lcd.write(weather.condition + 2);
+      lcd.write((uint8_t)(weather.condition + 2));
       lcd.print("Clima:");
       lcd.setCursor(0, 1);
       const char* conditions[] = {TEXT_SUNNY, TEXT_CLOUDY, TEXT_RAINY, TEXT_STORM};
@@ -304,7 +304,7 @@ void displayScreen(byte s) {
       break;
       
     case 4: // Presión/Altitud usando abreviaturas
-      lcd.write(6);
+      lcd.write((uint8_t)6);
       lcd.print(ABBR_PRESSURE ":");
       lcd.print(weather.press, PRESSURE_PRECISION);
       lcd.print("hPa");
@@ -315,7 +315,7 @@ void displayScreen(byte s) {
       break;
       
     case 5: // Índice UV usando textos de configuración
-      lcd.write(7);
+      lcd.write((uint8_t)7);
       lcd.print(ABBR_UV_INDEX ":");
       lcd.print(weather.uvIdx);
       lcd.setCursor(0, 1);
@@ -325,7 +325,7 @@ void displayScreen(byte s) {
       break;
       
     case 6: // Probabilidad lluvia usando abreviaturas
-      lcd.write(3);
+      lcd.write((uint8_t)3);
       lcd.print(ABBR_RAIN_PROB ":");
       lcd.print(weather.rainProb);
       lcd.print("%");
