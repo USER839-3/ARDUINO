@@ -1,0 +1,269 @@
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║                      ESTACIÓN METEOROLÓGICA CON IA - DIAGRAMA DE CONEXIONES                        ║
+║                                    Sistema Dual Arduino                                             ║
+╚══════════════════════════════════════════════════════════════════════════════════════╝
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                ARDUINO MAESTRO                                      │
+│                           (Sensores + Display)                                     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────────────┐
+     │  Arduino Uno    │
+     │    MAESTRO      │
+     │                 │
+     │  5V  ●──────────┼──── 5V común
+     │  GND ●──────────┼──── GND común
+     │  A4  ●──────────┼──── SDA (I2C)
+     │  A5  ●──────────┼──── SCL (I2C)
+     │  A0  ●──────────┼──── LDR Signal
+     │                 │
+     │  13  ●──────────┼──── LCD RS
+     │  12  ●──────────┼──── LCD Enable
+     │  11  ●──────────┼──── LCD D4
+     │  10  ●──────────┼──── LCD D5
+     │   9  ●──────────┼──── LCD D6
+     │   8  ●──────────┼──── LCD D7
+     └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                LCD 1602 CONEXIONES                                 │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────────────┐
+     │    LCD 1602     │
+     │                 │
+     │  1  VSS ●───────┼──── GND común
+     │  2  VDD ●───────┼──── 5V común
+     │  3  V0  ●───────┼──── Potenciómetro central (contraste)
+     │  4  RS  ●───────┼──── Arduino Pin 13
+     │  5  E   ●───────┼──── Arduino Pin 12
+     │  6  D0  ●───────┼──── No conectar
+     │  7  D1  ●───────┼──── No conectar
+     │  8  D2  ●───────┼──── No conectar
+     │  9  D3  ●───────┼──── No conectar
+     │  10 D4  ●───────┼──── Arduino Pin 11
+     │  11 D5  ●───────┼──── Arduino Pin 10
+     │  12 D6  ●───────┼──── Arduino Pin 9
+     │  13 D7  ●───────┼──── Arduino Pin 8
+     │  14 A   ●───────┼──── 5V + Resistencia 220Ω
+     │  15 K   ●───────┼──── GND común
+     └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              SENSOR BMP280 + AHT20                                 │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────────────┐
+     │  BMP280+AHT20   │
+     │  (Módulo 2en1)  │
+     │                 │
+     │  VCC ●──────────┼──── 3.3V Arduino
+     │  GND ●──────────┼──── GND común
+     │  SDA ●──────────┼──── A4 (ambos Arduinos)
+     │  SCL ●──────────┼──── A5 (ambos Arduinos)
+     └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              SENSOR LDR (Luz)                                      │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────────────┐
+     │      LDR        │
+     │                 │
+     │  Terminal 1 ●───┼──── 5V Arduino
+     │  Terminal 2 ●───┼──── A0 Arduino + Resistencia 10kΩ a GND
+     └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                ARDUINO ESCLAVO                                     │
+│                              (Procesamiento IA)                                    │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────────────┐
+     │  Arduino Uno    │
+     │    ESCLAVO      │
+     │                 │
+     │  5V  ●──────────┼──── 5V común
+     │  GND ●──────────┼──── GND común
+     │  A4  ●──────────┼──── SDA (I2C)
+     │  A5  ●──────────┼──── SCL (I2C)
+     └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                           CONEXIONES I2C ENTRE ARDUINOS                            │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+MAESTRO (0x04)    ←→    ESCLAVO (0x08)
+     A4 (SDA)     ←→    A4 (SDA)
+     A5 (SCL)     ←→    A5 (SCL)
+     GND          ←→    GND
+     5V           ←→    5V
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              POTENCIÓMETRO LCD                                     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+     ┌─────────────────┐
+     │  Potenciómetro  │
+     │     10kΩ        │
+     │                 │
+     │  Terminal 1 ●───┼──── 5V
+     │  Terminal 2 ●───┼──── LCD Pin V0 (contraste)
+     │  Terminal 3 ●───┼──── GND
+     └─────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                ALIMENTACIÓN                                        │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+Opción 1: Dual USB
+- Arduino Maestro → Cable USB a PC/Cargador
+- Arduino Esclavo → Cable USB a PC/Cargador
+
+Opción 2: Fuente Externa
+- Fuente 9V/1A → Jack power Arduino Maestro
+- Puente 5V/GND → Arduino Esclavo
+
+Opción 3: Alimentación Única
+- Arduino Maestro → Alimentación principal
+- Arduino Esclavo → 5V/GND desde Maestro
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              LISTA DE MATERIALES                                   │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+□ 2x Arduino Uno R3
+□ 1x LCD 1602 (sin módulo I2C)
+□ 1x Sensor BMP280+AHT20 (módulo combinado)
+□ 1x LDR (fotorresistencia)
+□ 1x Resistencia 10kΩ (para LDR)
+□ 1x Resistencia 220Ω (para backlight LCD)
+□ 1x Potenciómetro 10kΩ (contraste LCD)
+□ 1x Protoboard grande
+□ 20x Cables Dupont macho-macho
+□ 10x Cables Dupont macho-hembra
+□ 2x Cables USB para Arduino
+□ 1x Fuente 9V/1A (opcional)
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                           SECUENCIA DE ARMADO                                      │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+1. PREPARACIÓN
+   □ Verificar todos los componentes
+   □ Preparar protoboard
+   □ Organizar cables
+
+2. ALIMENTACIÓN
+   □ Conectar líneas de 5V y GND en protoboard
+   □ Conectar ambos Arduinos a líneas de alimentación
+   □ Verificar continuidad
+
+3. COMUNICACIÓN I2C
+   □ Conectar SDA (A4) de ambos Arduinos
+   □ Conectar SCL (A5) de ambos Arduinos
+   □ Verificar conexiones
+
+4. SENSOR BMP280+AHT20
+   □ Conectar VCC a 3.3V
+   □ Conectar GND a línea común
+   □ Conectar SDA/SCL a bus I2C
+   □ Verificar direcciones I2C
+
+5. SENSOR LDR
+   □ Conectar un terminal a 5V
+   □ Conectar otro terminal a A0 y resistencia 10kΩ
+   □ Conectar resistencia a GND
+
+6. LCD 1602
+   □ Conectar alimentación (VSS, VDD)
+   □ Conectar potenciómetro para contraste
+   □ Conectar pines de datos (D4-D7)
+   □ Conectar pines de control (RS, Enable)
+   □ Conectar backlight con resistencia
+
+7. VERIFICACIÓN
+   □ Revisar todas las conexiones
+   □ Verificar polaridades
+   □ Comprobar continuidad
+   □ Medir voltajes
+
+8. PROGRAMACIÓN
+   □ Cargar código en Arduino Maestro
+   □ Cargar código en Arduino Esclavo
+   □ Verificar funcionamiento
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                               TROUBLESHOOTING                                       │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+PROBLEMA: LCD no muestra nada
+SOLUCIÓN: 
+- Verificar conexiones de alimentación
+- Ajustar potenciómetro de contraste
+- Verificar conexiones de datos
+
+PROBLEMA: Sensor no detectado
+SOLUCIÓN:
+- Verificar conexiones I2C
+- Usar scanner I2C para detectar dispositivos
+- Verificar voltaje de alimentación (3.3V para sensores)
+
+PROBLEMA: Comunicación I2C fallida
+SOLUCIÓN:
+- Verificar direcciones I2C únicas
+- Comprobar conexiones SDA/SCL
+- Verificar resistencias pull-up (internas activadas)
+
+PROBLEMA: Lecturas erróneas
+SOLUCIÓN:
+- Verificar calibración de sensores
+- Comprobar interferencias electromagnéticas
+- Verificar estabilidad de alimentación
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                DIRECCIONES I2C                                     │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+DISPOSITIVO              DIRECCIÓN       FUNCIÓN
+Arduino Maestro          0x04           Envía datos
+Arduino Esclavo          0x08           Recibe y procesa datos
+BMP280                   0x76           Sensor presión/temperatura
+AHT20                    0x38           Sensor humedad/temperatura
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                              TIPS DE INSTALACIÓN                                   │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+• Usar cables cortos para minimizar interferencias
+• Mantener sensores alejados de fuentes de calor
+• Colocar LDR en posición que reciba luz natural
+• Proteger sensores de humedad directa
+• Usar caja protectora para instalación exterior
+• Verificar conexiones periódicamente
+• Mantener registro de lecturas para calibración
+• Permitir 24-48 horas para estabilización del sistema
+
+┌─────────────────────────────────────────────────────────────────────────────────────┐
+│                                MANTENIMIENTO                                       │
+└─────────────────────────────────────────────────────────────────────────────────────┘
+
+SEMANAL:
+- Limpiar sensores con aire comprimido
+- Verificar display LCD
+- Comprobar lecturas vs. referencia
+
+MENSUAL:
+- Verificar conexiones
+- Limpiar contactos
+- Revisar calibración
+
+SEMESTRAL:
+- Backup de datos EEPROM
+- Actualizar coeficientes IA
+- Verificar integridad del sistema
+
+═══════════════════════════════════════════════════════════════════════════════════════
+                              ¡SISTEMA LISTO PARA USO!
+═══════════════════════════════════════════════════════════════════════════════════════
