@@ -43,6 +43,9 @@
 
 // ==================== CONFIGURACIÓN DEL SISTEMA ====================
 
+// Configuración del sistema maestro-esclavo
+#define MASTER_MODE 1                   // 1=Maestro (sensores+LCD), 0=Esclavo (solo IA)
+
 // Intervalos de actualización (en milisegundos)
 #define SENSOR_UPDATE_INTERVAL 1000     // 1 segundo
 #define SCREEN_ROTATION_INTERVAL 3000   // 3 segundos
