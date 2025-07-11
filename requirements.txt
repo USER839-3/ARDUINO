@@ -1,0 +1,159 @@
+# Requisitos del Proyecto - Estación Meteorológica con IA
+# Librerías necesarias para Arduino IDE
+
+# ================================
+# LIBRERÍAS PRINCIPALES
+# ================================
+
+# Sensores Adafruit
+Adafruit Sensor Library >= 1.1.4
+Adafruit BMP280 Library >= 2.6.2
+Adafruit AHTX0 Library >= 2.0.3
+
+# Display LCD
+LiquidCrystal Library (incluida en Arduino IDE)
+
+# Comunicación I2C
+Wire Library (incluida en Arduino IDE)
+
+# Almacenamiento EEPROM
+EEPROM Library (incluida en Arduino IDE)
+
+# ================================
+# ESPECIFICACIONES TÉCNICAS
+# ================================
+
+# Arduino Compatible
+Arduino IDE >= 1.8.13
+Arduino Uno R3 (2 unidades)
+Flash Memory: 32KB cada uno
+SRAM: 2KB cada uno
+EEPROM: 1KB cada uno
+
+# Sensores Requeridos
+BMP280 (Presión/Temperatura)
+AHT20 (Humedad/Temperatura)
+LDR (Sensor de Luz)
+
+# Hardware Adicional
+LCD 1602 (sin módulo I2C)
+Resistencia 10kΩ (para LDR)
+Resistencia 220Ω (para backlight LCD)
+Potenciómetro 10kΩ (contraste LCD)
+Cables Dupont
+Protoboard
+
+# ================================
+# CONFIGURACIÓN REGIONAL
+# ================================
+
+# Parámetros para región montañosa (2,219 msnm)
+TEMP_MIN: 6°C
+TEMP_MAX: 29°C
+HUMIDITY_MIN: 75%
+HUMIDITY_MAX: 91%
+ALTITUDE: 2,219 metros
+PRESSURE_BASE: 771.8 hPa
+
+# Temporada de lluvias
+RAINY_SEASON: Junio - Septiembre
+RAIN_PEAK: Septiembre
+DRY_SEASON: Enero
+
+# ================================
+# INSTALACIÓN DE LIBRERÍAS
+# ================================
+
+# Método 1: Arduino IDE
+# 1. Abrir Arduino IDE
+# 2. Ir a Herramientas > Gestor de Librerías
+# 3. Buscar cada librería y instalar
+
+# Método 2: Instalación manual
+# 1. Descargar librerías desde GitHub
+# 2. Extraer en carpeta libraries de Arduino
+
+# ================================
+# VERIFICACIÓN DE INSTALACIÓN
+# ================================
+
+# Compilar códigos ejemplo para verificar:
+# - Adafruit_BMP280 > bmp280test
+# - Adafruit_AHTX0 > aht20_test
+# - LiquidCrystal > HelloWorld
+
+# ================================
+# COMPATIBILIDAD
+# ================================
+
+# Arduino Boards compatibles:
+# - Arduino Uno R3 ✓
+# - Arduino Nano ✓
+# - Arduino Pro Mini ✓
+# - Arduino Mega 2560 ✓ (con modificaciones)
+
+# Sistemas Operativos:
+# - Windows 10/11 ✓
+# - macOS 10.14+ ✓
+# - Linux Ubuntu 18.04+ ✓
+
+# ================================
+# CONSUMO DE MEMORIA
+# ================================
+
+# Arduino Maestro:
+# Flash: ~28KB (87% del espacio)
+# SRAM: ~1.8KB (88% del espacio)
+
+# Arduino Esclavo:
+# Flash: ~24KB (75% del espacio)
+# SRAM: ~1.6KB (78% del espacio)
+
+# ================================
+# NOTAS IMPORTANTES
+# ================================
+
+# 1. Usar Arduino IDE 1.8.13 o superior
+# 2. Configurar Board: Arduino Uno
+# 3. Configurar Processor: ATmega328P
+# 4. Velocidad: 16MHz
+# 5. Programador: AVRISP mkII
+
+# 6. Verificar conexiones I2C antes de cargar código
+# 7. Usar Serial Monitor a 9600 bps para debug
+# 8. Permitir 24-48 horas para calibración IA
+
+# ================================
+# TROUBLESHOOTING
+# ================================
+
+# Error de compilación:
+# - Verificar versiones de librerías
+# - Limpiar cache de Arduino IDE
+# - Reinstalar librerías problemáticas
+
+# Error de memoria:
+# - Código optimizado para Arduino Uno
+# - No modificar arrays de historial
+# - Usar String() con cuidado
+
+# Error de sensores:
+# - Verificar conexiones I2C
+# - Usar scanner I2C para detectar dispositivos
+# - Verificar voltajes de alimentación
+
+# ================================
+# ACTUALIZACIONES
+# ================================
+
+# Versión 1.0 - Enero 2024
+# - Implementación inicial
+# - Sistema dual Arduino
+# - 8 pantallas informativas
+# - IA básica de predicción
+
+# Versión 1.1 - Planificada
+# - Mejoras en algoritmos IA
+# - Conectividad Wi-Fi opcional
+# - Interface web para monitoreo
+# - Backup automático de datos
