@@ -1,0 +1,155 @@
+DIAGRAMA DE CONEXIONES - SISTEMA MAESTRO-ESCLAVO
+==================================================
+
+ARDUINO ESCLAVO (SENSORES)
+==========================
+
+┌─────────────────────────────────────────────────────────────┐
+│                    ARDUINO UNO ESCLAVO                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │   BMP280    │    │   AHT20     │    │    LDR      │     │
+│  │   + AHT20   │    │   (I2C)    │    │   (A0)      │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│         │                   │                   │           │
+│         │                   │                   │           │
+│    ┌────┴────┐         ┌────┴────┐         ┌────┴────┐     │
+│    │   I2C   │         │   I2C   │         │   A0    │     │
+│    └────┬────┘         └────┬────┘         └────┬────┘     │
+│         │                   │                   │           │
+│    ┌────┴───────────────────┴───────────────────┴────┐     │
+│    │                                                  │     │
+│    │  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐   │     │
+│    │  │ 5V  │  │ GND │  │ A4  │  │ A5  │  │ A0  │   │     │
+│    │  │     │  │     │  │ SDA │  │ SCL │  │ LDR │   │     │
+│    │  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘   │     │
+│    │                                                  │     │
+│    └──────────────────────────────────────────────────┘     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+CONEXIONES DETALLADAS ESCLAVO:
+- BMP280+AHT20 VCC → Arduino 5V
+- BMP280+AHT20 GND → Arduino GND  
+- BMP280+AHT20 SDA → Arduino A4
+- BMP280+AHT20 SCL → Arduino A5
+- LDR Pin → Arduino A0
+- LDR VCC → Arduino 5V
+- LDR GND → Arduino GND
+- Resistencia 10kΩ entre LDR y GND
+
+ARDUINO MAESTRO (LCD + IA)
+==========================
+
+┌─────────────────────────────────────────────────────────────┐
+│                    ARDUINO UNO MAESTRO                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  ┌─────────────────────────────────────────────────────────┐ │
+│  │                    LCD 1602                             │ │
+│  │              (SIN MÓDULO I2C)                          │ │
+│  └─────────────────────────────────────────────────────────┘ │
+│         │         │         │         │         │           │
+│         │         │         │         │         │           │
+│    ┌────┴────┐ ┌──┴──┐ ┌────┴────┐ ┌──┴──┐ ┌────┴────┐     │
+│    │   RS    │ │ EN  │ │   D4    │ │ D5  │ │   D6    │     │
+│    └────┬────┘ └──┬──┘ └────┬────┘ └──┬──┘ └────┬────┘     │
+│         │         │         │         │         │           │
+│    ┌────┴───────────────────┴───────────────────┴────┐     │
+│    │                                                  │     │
+│    │  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐   │     │
+│    │  │ 13  │  │ 12  │  │ 11  │  │ 10  │  │  9  │   │     │
+│    │  │ RS  │  │ EN  │  │ D4  │  │ D5  │  │ D6  │   │     │
+│    │  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘   │     │
+│    │                                                  │     │
+│    │  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐  ┌─────┐   │     │
+│    │  │  8  │  │ 5V  │  │ GND │  │ A4  │  │ A5  │   │     │
+│    │  │ D7  │  │ VDD │  │ VSS │  │ SDA │  │ SCL │   │     │
+│    │  └─────┘  └─────┘  └─────┘  └─────┘  └─────┘   │     │
+│    │                                                  │     │
+│    └──────────────────────────────────────────────────┘     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+
+CONEXIONES DETALLADAS MAESTRO:
+- LCD RS → Arduino Pin 13
+- LCD Enable → Arduino Pin 12  
+- LCD D4 → Arduino Pin 11
+- LCD D5 → Arduino Pin 10
+- LCD D6 → Arduino Pin 9
+- LCD D7 → Arduino Pin 8
+- LCD VSS → Arduino GND
+- LCD VDD → Arduino 5V
+- LCD V0 → Potenciómetro 10kΩ (contraste)
+- LCD A → Arduino 5V (backlight)
+- LCD K → Arduino GND (backlight)
+
+COMUNICACIÓN I2C ENTRE ARDUINOS
+===============================
+
+┌─────────────────┐         ┌─────────────────┐
+│   ARDUINO       │         │   ARDUINO       │
+│    ESCLAVO      │         │    MAESTRO      │
+│                 │         │                 │
+│  ┌───────────┐  │         │  ┌───────────┐  │
+│  │    A4     │◄─┼─────────┼─►│    A4     │  │
+│  │   SDA     │  │         │  │   SDA     │  │
+│  └───────────┘  │         │  └───────────┘  │
+│                 │         │                 │
+│  ┌───────────┐  │         │  ┌───────────┐  │
+│  │    A5     │◄─┼─────────┼─►│    A5     │  │
+│  │   SCL     │  │         │  │   SCL     │  │
+│  └───────────┘  │         │  └───────────┘  │
+│                 │         │                 │
+│  ┌───────────┐  │         │  ┌───────────┐  │
+│  │    GND    │◄─┼─────────┼─►│    GND    │  │
+│  └───────────┘  │         │  └───────────┘  │
+│                 │         │                 │
+│  ┌───────────┐  │         │  ┌───────────┐  │
+│  │    5V     │◄─┼─────────┼─►│    5V     │  │
+│  └───────────┘  │         │  └───────────┘  │
+└─────────────────┘         └─────────────────┘
+
+ALIMENTACIÓN COMPLETA
+====================
+
+┌─────────────────────────────────────────────────────────────┐
+│                    FUENTE DE ALIMENTACIÓN                   │
+│                        5V DC                                │
+└─────────────────────────┬───────────────────────────────────┘
+                          │
+                    ┌─────┴─────┐
+                    │           │
+              ┌─────▼─────┐ ┌───▼───┐
+              │ ARDUINO   │ │ARDUINO│
+              │ ESCLAVO   │ │MAESTRO│
+              │           │ │       │
+              └───────────┘ └───────┘
+
+NOTAS IMPORTANTES:
+==================
+
+1. AMBOS ARDUINOS DEBEN COMPARTIR TIERRA (GND)
+2. AMBOS ARDUINOS DEBEN COMPARTIR 5V
+3. CONEXIONES I2C (SDA/SCL) DEBEN SER DIRECTAS
+4. LDR NECESITA RESISTENCIA PULL-DOWN DE 10kΩ
+5. LCD NECESITA POTENCIÓMETRO PARA CONTRASTE
+6. VERIFICAR DIRECCIONES I2C (ESCLAVO: 0x08)
+
+CALIBRACIÓN:
+============
+
+1. Ajustar contraste del LCD con potenciómetro
+2. Verificar comunicación I2C con scanner
+3. Calibrar LDR según iluminación local
+4. Ajustar parámetros regionales en código
+5. Verificar precisión de sensores
+
+TROUBLESHOOTING:
+================
+
+- Sin comunicación: Verificar SDA/SCL/GND
+- LCD sin imagen: Ajustar contraste
+- Lecturas erróneas: Calibrar sensores
+- Reinicio continuo: Verificar alimentación
